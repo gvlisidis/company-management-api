@@ -39,6 +39,8 @@ class UserHolidayController extends Controller
 
     public function show(UserHoliday $userHoliday): JsonResource
     {
+        $this->authorize('view', $userHoliday);
+
         return new UserHolidayResource($userHoliday);
     }
 
@@ -47,12 +49,14 @@ class UserHolidayController extends Controller
      * @param  UserHoliday  $userHoliday
      * @param  UserHolidayService  $userHolidayService
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(
         UpdateUserHolidayRequest $request,
         UserHoliday $userHoliday,
         UserHolidayService $userHolidayService
     ) {
+        $this->authorize('update', $userHoliday);
         $data = $request->validated();
         try {
             $userHolidayService->updateHolidayRequest($userHoliday, $data);
@@ -66,9 +70,11 @@ class UserHolidayController extends Controller
     /**
      * @param  UserHoliday  $userHoliday
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(UserHoliday $userHoliday)
     {
+        $this->authorize('delete', $userHoliday);
         $userHoliday->delete();
 
         return response('Holiday request deleted.', \Illuminate\Http\Response::HTTP_OK);

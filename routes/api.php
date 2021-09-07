@@ -16,4 +16,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::patch('/{userHoliday}', [\App\Http\Controllers\UserHolidayController::class, 'update'])->name('user-holidays.update');
         Route::delete('/{userHoliday}', [\App\Http\Controllers\UserHolidayController::class, 'destroy'])->name('user-holidays.delete');
     });
+
+    Route::prefix('admin')->middleware('admin')->group(function() {
+        Route::prefix('user-holidays')->group(function() {
+            Route::patch('/approve/{userHoliday}', [\App\Http\Controllers\Admin\UserHolidayController::class, 'approve']);
+        });
+    });
 });

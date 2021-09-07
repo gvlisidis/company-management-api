@@ -53,7 +53,7 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->where('role_id', 1)->exists();
+        return $this->role_id === 1;
     }
 
     public function holidays(): HasMany

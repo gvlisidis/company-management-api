@@ -12,16 +12,12 @@ class HolidayRequested extends Notification
 {
     use Queueable;
 
-    protected $userHoliday;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(UserHoliday $userHoliday)
-    {
-        $this->userHoliday = $userHoliday;
-    }
+    public function __construct(public UserHoliday $userHoliday) {}
 
     /**
      * Get the notification's delivery channels.
