@@ -4,18 +4,14 @@ use App\Http\Controllers\MeController;
 use App\Http\Controllers\TokenController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 Route::post('/sanctum/token', TokenController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/me', MeController::class);
+    Route::get('me', MeController::class);
+
+    Route::prefix('user-holidays')->group(function() {
+        Route::get('', [\App\Http\Controllers\UserHolidayController::class, 'index'])->name('user-holidays.index');
+        Route::get('/{userHoliday}', [\App\Http\Controllers\UserHolidayController::class, 'show'])->name('user-holidays.show');
+        Route::post('', [\App\Http\Controllers\UserHolidayController::class, 'store'])->name('user-holidays.store');
+    });
 });

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,5 +28,9 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => null,
             ]
         );
+
+        Model::unguard();
+        $this->call(UserHolidaySeeder::class);
+        Model::reguard();
     }
 }
