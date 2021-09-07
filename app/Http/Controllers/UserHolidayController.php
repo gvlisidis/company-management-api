@@ -3,17 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserHolidayRequest;
+use App\Http\Requests\UpdateUserHolidayRequest;
 use App\Http\Resources\UserHolidayCollection;
 use App\Http\Resources\UserHolidayResource;
-use App\Models\User;
 use App\Models\UserHoliday;
-use App\Notifications\HolidayRequested;
 use App\Services\UserHolidayService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 
 class UserHolidayController extends Controller
 {
@@ -23,30 +20,20 @@ class UserHolidayController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  StoreUserHolidayRequest  $request
+     * @param  UserHolidayService  $userHolidayService
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function store(StoreUserHolidayRequest $request, UserHolidayService $userHolidayService)
     {
         $data = $request->validated();
 
-        try{
-            $userHolidayService->sendHolidayRequest($data, $request);
+        try {
+            $userHolidayService->sendHolidayRequest($data);
+
             return response('Holiday requested.', \Illuminate\Http\Response::HTTP_CREATED);
         } catch (\Exception $exception) {
-            return  response($exception->getMessage(), \Illuminate\Http\Response::HTTP_UNPROCESSABLE_ENTITY);
+            return response($exception->getMessage(), \Illuminate\Http\Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -56,36 +43,34 @@ class UserHolidayController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\UserHoliday  $userHoliday
-     * @return \Illuminate\Http\Response
+     * @param  UpdateUserHolidayRequest  $request
+     * @param  UserHoliday  $userHoliday
+     * @param  UserHolidayService  $userHolidayService
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function edit(UserHoliday $userHoliday)
-    {
-        //
+    public function update(
+        UpdateUserHolidayRequest $request,
+        UserHoliday $userHoliday,
+        UserHolidayService $userHolidayService
+    ) {
+        $data = $request->validated();
+        try {
+            $userHolidayService->updateHolidayRequest($userHoliday, $data);
+
+            return response('Holiday request updated.', \Illuminate\Http\Response::HTTP_OK);
+        } catch (\Exception $exception) {
+            return response($exception->getMessage(), \Illuminate\Http\Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\UserHoliday  $userHoliday
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, UserHoliday $userHoliday)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\UserHoliday  $userHoliday
-     * @return \Illuminate\Http\Response
+     * @param  UserHoliday  $userHoliday
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function destroy(UserHoliday $userHoliday)
     {
-        //
+        $userHoliday->delete();
+
+        return response('Holiday request deleted.', \Illuminate\Http\Response::HTTP_OK);
     }
 }
