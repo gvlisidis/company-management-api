@@ -11,11 +11,13 @@ class UserHoliday extends Model
 {
     use HasFactory;
 
+    const PENDING = 1;
+    const APPROVED = 2;
+    const REJECTED = 3;
+
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     protected $dates = ['start_date', 'end_date', 'approved_at'];
-
-    protected $casts = ['approved' => 'boolean'];
 
     public function user(): BelongsTo
     {
@@ -24,11 +26,11 @@ class UserHoliday extends Model
 
     public function scopeApproved(Builder $query): Builder
     {
-        return $query->where('approved', 1);
+        return $query->where('status', self::APPROVED);
     }
 
     public function scopePending(Builder $query): Builder
     {
-        return $query->where('approved', 0);
+        return $query->where('status', self::PENDING);
     }
 }

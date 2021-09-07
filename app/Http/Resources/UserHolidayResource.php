@@ -22,8 +22,8 @@ class UserHolidayResource extends JsonResource
             'end_date_period' => $this->end_date_period,
             'reason' => $this->reason,
             'user' => new UserResource($this->user),
-            'approved' => $this->approved,
-            'approved_by' => optional($this->user()->where('id', $this->approved_by)->first())->name,
+            'status' => $this->status,
+            'reviewed_by' => optional($this->user()->where('id', $this->reviewed_by)->first())->name,
             'approved_at' => optional($this->approved_at)->format('d/m/Y'),
         ];
     }

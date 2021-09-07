@@ -38,9 +38,9 @@ class UserHolidayService
                 'end_date' => $data['end_date'],
                 'end_date_period' => $data['end_date_period'],
                 'reason' => $data['reason'],
-                'approved' => false,
+                'status' => UserHoliday::PENDING,
                 'approved_at' => null,
-                'approved_by' => null,
+                'reviewed_by' => null,
             ]);
 
             Notification::send(User::administrators()->get(), new HolidayRequested($userHoliday));

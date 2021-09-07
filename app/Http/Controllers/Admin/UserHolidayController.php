@@ -13,11 +13,22 @@ class UserHolidayController extends Controller
         $this->authorize('approve', $userHoliday);
 
         $userHoliday->update([
-            'approved' => true,
+            'status' => UserHoliday::APPROVED,
             'approved_at' => now(),
-            'approved_by' => auth()->id(),
+            'reviewed_by' => auth()->id(),
         ]);
 
         return response('Holiday request approved.', \Illuminate\Http\Response::HTTP_OK);
+    }
+
+    public function reject(UserHoliday $userHoliday)
+    {
+        $this->authorize('reject', $userHoliday);
+
+        $userHoliday->update([
+            'status' => UserHoliday::REJECTED,
+            'approved_at' => null,
+            'reviewed_by' => auth()->id(),
+        ]);
     }
 }

@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('admin')->middleware('admin')->group(function() {
         Route::prefix('user-holidays')->group(function() {
             Route::patch('/approve/{userHoliday}', [\App\Http\Controllers\Admin\UserHolidayController::class, 'approve']);
+            Route::patch('/reject/{userHoliday}', [\App\Http\Controllers\Admin\UserHolidayController::class, 'reject']);
         });
     });
 });

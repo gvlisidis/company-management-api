@@ -47,11 +47,12 @@ class UserHolidayPolicy
         return $user->id === $userHoliday->user_id || $user->isAdmin();
     }
 
-    /**
-     * @param  User  $user
-     * @return bool
-     */
-    public function approve(User $user)
+    public function approve(User $user, UserHoliday $userHoliday)
+    {
+        return $user->isAdmin();
+    }
+
+    public function reject(User $user, UserHoliday $userHoliday)
     {
         return $user->isAdmin();
     }
