@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -45,11 +46,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $dates = [
-        'start_date',
-        'end_date',
-    ];
-
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
@@ -65,8 +61,8 @@ class User extends Authenticatable
         return $this->hasMany(UserHoliday::class);
     }
 
-    public function upcomingHolidays()
+    public function scopeAdministrators(Builder $query): Builder
     {
-        return $this->holidays()->where('start_date', '>=', now())->get();
+        return $query->where('role_id', 1);
     }
 }

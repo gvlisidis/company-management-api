@@ -17,45 +17,63 @@ class UserHolidaySeeder extends Seeder
         UserHoliday::factory()->create([
             'user_id' => 1,
             'start_date' => '2021-09-11',
-            'start_date_period' => 'am',
+            'start_date_period' => 'AM',
             'end_date' => '2021-09-15',
-            'end_date_period' => 'pm',
+            'end_date_period' => 'PM',
             'reason' => '',
         ]);
 
         UserHoliday::factory()->create([
             'user_id' => 1,
             'start_date' => '2021-11-12',
-            'start_date_period' => 'am',
+            'start_date_period' => 'AM',
             'end_date' => '2021-11-25',
-            'end_date_period' => 'pm',
+            'end_date_period' => 'PM',
+            'reason' => '',
+        ]);
+
+        UserHoliday::factory()->create([
+            'user_id' => 1,
+            'start_date' => '2021-09-15',
+            'start_date_period' => 'PM',
+            'end_date' => '2021-09-15',
+            'end_date_period' => 'PM',
+            'reason' => '',
+        ]);
+
+        UserHoliday::factory()->create([
+            'user_id' => 1,
+            'start_date' => '2021-11-22',
+            'start_date_period' => 'AM',
+            'end_date' => '2021-11-22',
+            'end_date_period' => 'AM',
             'reason' => '',
         ]);
 
         UserHoliday::factory()->create([
             'user_id' => 1,
             'start_date' => '2021-12-24',
-            'start_date_period' => 'am',
+            'start_date_period' => 'AM',
             'end_date' => '2021-12-28',
-            'end_date_period' => 'pm',
+            'end_date_period' => 'PM',
             'reason' => '',
         ]);
 
         UserHoliday::factory()->create([
             'user_id' => 1,
             'start_date' => '2021-05-28',
-            'start_date_period' => 'am',
+            'start_date_period' => 'AM',
             'end_date' => '2021-06-04',
-            'end_date_period' => 'pm',
+            'end_date_period' => 'PM',
             'reason' => '',
         ]);
 
         UserHoliday::factory()->create([
             'user_id' => 1,
             'start_date' => '2021-04-18',
-            'start_date_period' => 'am',
+            'start_date_period' => 'PM',
             'end_date' => '2021-04-29',
-            'end_date_period' => 'pm',
+            'end_date_period' => 'PM',
             'reason' => '',
         ]);
 

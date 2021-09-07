@@ -21,6 +21,9 @@ class CreateUserHolidaysTable extends Migration
             $table->date('end_date');
             $table->string('end_date_period');
             $table->text('reason')->nullable();
+            $table->boolean('approved')->default(0);
+            $table->date('approved_at')->nullable();
+            $table->foreignId('approved_by')->nullable()->references('id')->on('users');
             $table->timestamps();
         });
     }

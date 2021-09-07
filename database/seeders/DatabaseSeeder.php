@@ -29,6 +29,46 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        User::factory()->create(
+            [
+                'name' => 'Zina',
+                'email' => 'zs@mail.com',
+                'role_id' => 1,
+                'email_verified_at' => null,
+            ]
+        );
+
+        User::factory()->create(
+            [
+                'name' => 'Kleio',
+                'email' => 'kl@mail.com',
+                'role_id' => 1,
+                'email_verified_at' => null,
+            ]
+        );
+
+        User::factory()->create(
+            [
+                'name' => 'Anestis',
+                'email' => 'an@mail.com',
+                'role_id' => 2,
+                'email_verified_at' => null,
+            ]
+        );
+
+        User::factory()->create(
+            [
+                'name' => 'Soula',
+                'email' => 'sl@mail.com',
+                'role_id' => 2,
+                'email_verified_at' => null,
+            ]
+        );
+
+        User::factory(15)->create([
+            'role_id' => 2
+        ]);
+
         Model::unguard();
         $this->call(UserHolidaySeeder::class);
         Model::reguard();

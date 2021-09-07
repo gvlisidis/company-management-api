@@ -5,10 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserHolidayRequest;
 use App\Http\Resources\UserHolidayCollection;
 use App\Http\Resources\UserHolidayResource;
+use App\Models\User;
 use App\Models\UserHoliday;
+use App\Notifications\HolidayRequested;
+use App\Services\UserHolidayService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class UserHolidayController extends Controller
 {
@@ -33,18 +38,16 @@ class UserHolidayController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUserHolidayRequest $request)
+    public function store(StoreUserHolidayRequest $request, UserHolidayService $userHolidayService)
     {
         $data = $request->validated();
-        $request->user()->holidays()->create([
-            'start_date' => $data['start_date'],
-            'start_date_period' => $data['start_date_period'],
-            'end_date' => $data['end_date'],
-            'end_date_period' => $data['end_date_period'],
-            'reason' => $data['reason'],
-        ]);
 
-        return \Illuminate\Http\Response::HTTP_CREATED;
+        try{
+            $userHolidayService->sendHolidayRequest($data, $request);
+            return response('Holiday requested.', \Illuminate\Http\Response::HTTP_CREATED);
+        } catch (\Exception $exception) {
+            return  response($exception->getMessage(), \Illuminate\Http\Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 
     public function show(UserHoliday $userHoliday): JsonResource
