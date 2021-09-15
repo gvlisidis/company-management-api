@@ -19,6 +19,12 @@ class UserHolidayController extends Controller
         return new UserHolidayCollection($request->user()->holidays);
     }
 
+    public function daysRequested(StoreUserHolidayRequest $request, UserHolidayService $userHolidayService): float
+    {
+        $data = $request->safe()->only(['start_date', 'start_date_period', 'end_date', 'end_date_period']);
+        return $userHolidayService->amountDaysRequested($data);
+    }
+
     /**
      * @param  StoreUserHolidayRequest  $request
      * @param  UserHolidayService  $userHolidayService

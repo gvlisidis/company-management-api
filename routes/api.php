@@ -11,6 +11,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('user-holidays')->group(function() {
         Route::get('', [\App\Http\Controllers\UserHolidayController::class, 'index'])->name('user-holidays.index');
+        Route::get('/days-requested', [\App\Http\Controllers\UserHolidayController::class, 'daysRequested'])->name('user-holidays.requested');
         Route::get('/{userHoliday}', [\App\Http\Controllers\UserHolidayController::class, 'show'])->name('user-holidays.show');
         Route::post('', [\App\Http\Controllers\UserHolidayController::class, 'store'])->name('user-holidays.store');
         Route::patch('/{userHoliday}', [\App\Http\Controllers\UserHolidayController::class, 'update'])->name('user-holidays.update');

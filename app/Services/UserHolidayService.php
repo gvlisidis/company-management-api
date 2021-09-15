@@ -2,11 +2,10 @@
 
 namespace App\Services;
 
-use App\Http\Requests\StoreUserHolidayRequest;
-use App\Http\Requests\UpdateUserHolidayRequest;
 use App\Models\User;
 use App\Models\UserHoliday;
 use App\Notifications\HolidayRequested;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 
@@ -45,5 +44,29 @@ class UserHolidayService
 
             Notification::send(User::administrators()->get(), new HolidayRequested($userHoliday));
         });
+    }
+
+    public function amountDaysRequested(array $data): float
+    {
+        $startDate = Carbon::parse($data['start_date']);
+        $endDate = Carbon::parse($data['end_date']);
+
+        $numOfWorkingDays = 0;
+        while ($startDate->lte($endDate)){
+            if($startDate->isWeekday()) {
+                $numOfWorkingDays++;
+            }
+            $startDate->addDay();
+        }
+
+        if($data['start_date_period'] == 'PM') {
+            $numOfWorkingDays -= 0.5;
+        }
+
+        if($data['end_date_period'] == 'AM') {
+            $numOfWorkingDays -= 0.5;
+        }
+
+         return $numOfWorkingDays;
     }
 }
