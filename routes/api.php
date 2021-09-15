@@ -23,5 +23,9 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::patch('/approve/{userHoliday}', [\App\Http\Controllers\Admin\UserHolidayController::class, 'approve']);
             Route::patch('/reject/{userHoliday}', [\App\Http\Controllers\Admin\UserHolidayController::class, 'reject']);
         });
+
+        Route::prefix('bank-holidays')->group(function () {
+            Route::get('', [\App\Http\Controllers\Admin\BankHolidayController::class, 'index'])->name('bank-holidays.index');
+        });
     });
 });
