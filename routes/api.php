@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::prefix('bank-holidays')->group(function () {
             Route::get('', [\App\Http\Controllers\Admin\BankHolidayController::class, 'index'])->name('bank-holidays.index');
+            Route::post('', [\App\Http\Controllers\Admin\BankHolidayController::class, 'store'])->name('bank-holidays.store');
         });
     });
 });

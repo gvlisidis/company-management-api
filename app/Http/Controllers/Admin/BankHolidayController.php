@@ -3,23 +3,31 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GetBankHolidaysRequest;
+use App\Http\Requests\StoreBankHolidayRequest;
+use App\Http\Resources\BankHolidayResource;
 use App\Models\BankHoliday;
-use Illuminate\Http\Request;
 
 class BankHolidayController extends Controller
 {
-    public function index(Request $request)
+    public function index(GetBankHolidaysRequest $request)
     {
-        $request->validate([
-            'year' => ['sometimes', 'nullable', 'digits:4', 'integer', 'min:' . (date('Y'))],
-        ]);
-
         $year = $request->year;
-
         $baseQuery = BankHoliday::query();
-
         $bankHolidays = $year ?  $baseQuery->whereYear('date', $year)->get() : $baseQuery->get();
-        dd($bankHolidays);
 
+        return BankHolidayResource::collection($bankHolidays);
+    }
+
+    public function store(StoreBankHolidayRequest $request)
+    {
+        $dates = $request->dates;
+
+       foreach ($dates as $date) {
+           BankHoliday::create(['date' => $date]);
+       }
+
+
+        return response('Bank Holidays Added.', \Illuminate\Http\Response::HTTP_CREATED);
     }
 }
