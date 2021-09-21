@@ -15,7 +15,7 @@ class CreateBankHolidaysTable extends Migration
     {
         Schema::create('bank_holidays', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
+            $table->date('date')->unique();
             $table->timestamps();
         });
     }

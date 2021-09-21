@@ -12,20 +12,18 @@ class BankHolidayController extends Controller
 {
     public function index(GetBankHolidaysRequest $request)
     {
-        $year = $request->year;
-        $baseQuery = BankHoliday::query();
-        $bankHolidays = $year ?  $baseQuery->whereYear('date', $year)->get() : $baseQuery->get();
-
-        return BankHolidayResource::collection($bankHolidays);
+        return BankHolidayResource::collection(BankHoliday::forYear($request->year));
     }
 
     public function store(StoreBankHolidayRequest $request)
     {
         $dates = $request->dates;
 
-       foreach ($dates as $date) {
-           BankHoliday::create(['date' => $date]);
-       }
+        if ($dates && !empty($dates)) {
+            foreach ($dates as $date) {
+                BankHoliday::create(['date' => $date]);
+            }
+        }
 
 
         return response('Bank Holidays Added.', \Illuminate\Http\Response::HTTP_CREATED);

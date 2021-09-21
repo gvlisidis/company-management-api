@@ -14,7 +14,14 @@ class StoreBankHolidayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'dates' => ['array', 'sometimes', 'nullable'],
+            'dates' => ['array', 'sometimes', 'nullable', 'unique:bank_holidays,date'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'dates.unique' => 'At least one of the dates exists.'
         ];
     }
 }
