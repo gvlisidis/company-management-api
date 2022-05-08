@@ -20,7 +20,7 @@ class UserHolidayPolicy
      */
     public function view(User $user, UserHoliday $userHoliday)
     {
-        return $user->id === $userHoliday->user_id || $user->isAdmin();
+        return $user->id === $userHoliday->user_id || $user->hasRole('Admin');
     }
 
     /**
@@ -32,7 +32,7 @@ class UserHolidayPolicy
      */
     public function update(User $user, UserHoliday $userHoliday)
     {
-        return $user->id === $userHoliday->user_id || $user->isAdmin();
+        return $user->id === $userHoliday->user_id || $user->hasRole('Admin');
     }
 
     /**
@@ -44,16 +44,16 @@ class UserHolidayPolicy
      */
     public function delete(User $user, UserHoliday $userHoliday)
     {
-        return $user->id === $userHoliday->user_id || $user->isAdmin();
+        return $user->id === $userHoliday->user_id || $user->hasRole('Admin');
     }
 
     public function approve(User $user, UserHoliday $userHoliday)
     {
-        return $user->isAdmin();
+        return $user->can('approve holiday');
     }
 
     public function reject(User $user, UserHoliday $userHoliday)
     {
-        return $user->isAdmin();
+        return $user->can('reject holiday');
     }
 }
