@@ -21,6 +21,7 @@ return [
         'logout',
         'register',
         'user/password',
+        'sanctum/token',
         'forgot-password',
         'reset-password',
         'sanctum/csrf-cookie',
@@ -40,6 +41,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => true,
+    'supports_credentials' => false,
 
 ];

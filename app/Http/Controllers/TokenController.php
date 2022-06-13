@@ -13,8 +13,7 @@ class TokenController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
-            'device_name' => 'required',
+            'password' => 'required|confirmed',
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -25,8 +24,8 @@ class TokenController extends Controller
             ]);
         }
 
-        $token = $user->createToken($request->device_name)->plainTextToken;
+        $token = $user->createToken('main')->plainTextToken;
 
-        return response()->json(['token' => $token], 200);
+        return response()->json(['token' => $token, 'user' => $user], 200);
     }
 }
